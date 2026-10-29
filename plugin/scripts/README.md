@@ -74,7 +74,7 @@ errors exit 1, missing Playwright exits 2, and failed lint/audit/X checks exit 3
 - `node scripts/export.mjs loopcheck anim.mp4` repeats a video.
   Defaults: `--times 3 --out out/loop_check.mp4`.
 - `node scripts/export.mjs xcheck anim.mp4` checks X format, dimension, duration,
-  rate, and audio limits. Prints a table or JSON.
+  rate, and audio limits. Prints a table and a one-line verdict, or one JSON document with `--json`.
 - `node scripts/lab.mjs page.html` writes a timestamped review pack and manifest.
   Defaults: `--secs 6 --fps 24 --width 1080 --height 1080`,
   `--stills 0,24,48,72,96 --every 12`. Always requests contact-sheet labels.

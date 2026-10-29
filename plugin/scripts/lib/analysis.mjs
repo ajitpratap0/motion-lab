@@ -5,7 +5,9 @@ function nearConstant(deltas) {
   }
   const variance = deltas.reduce((sum, value) => sum + (value - mean) ** 2, 0)
     / deltas.length;
-  return variance / (mean * mean) < 0.02;
+  // Linear easing gives identical deltas; a cosine or eased curve drifts by >= 0.1% per frame even near its
+  // steepest point, so only flag runs that are constant to that tolerance.
+  return variance / (mean * mean) < 1e-6;
 }
 
 function findDeadStops(delta, key) {

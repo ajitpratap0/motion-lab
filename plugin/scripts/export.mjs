@@ -1,4 +1,3 @@
-import {Console} from 'node:console';
 import {readFile, writeFile, stat} from 'node:fs/promises';
 import {cli, number, ensureParent} from './lib/args.mjs';
 import {checked, probe} from './lib/ffmpeg.mjs';
@@ -95,10 +94,10 @@ async function checkX(args, file) {
     videoChecks(metadata.data, video, add);
   }
   const allPassed = checks.every(check => check.ok);
-  // The table goes to stderr so stdout stays a single JSON document either way.
-  if (!args.json) new Console(process.stderr).table(checks);
   if (!allPassed) process.exitCode = 3;
-  return {file, ok: allPassed, checks};
+  if (args.json) return {file, ok: allPassed, checks};
+  console.table(checks);
+  return `xcheck ${allPassed ? 'ok' : 'FAILED'}: ${file}`;
 }
 
 async function exportMedia(args) {

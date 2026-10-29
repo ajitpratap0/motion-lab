@@ -23,12 +23,14 @@ You review one round of a code-drawn animation. You do not edit the scene. You r
    - timing vs the beat grid and hit frames (use probe.json values, not guesses)
    - banned defaults present anyway (name each: "halo ring", "particles", "fade-and-slide-up")
    - KEEP violations (proportions, colors, geometry)
-   - motion quality from speed-graph findings (linear runs on moves, dead stops), easing/spring numbers
+   - motion quality from speed-graph findings (linear runs on moves, dead stops; skip
+     linear runs marked `intended`), easing/spring numbers
    - framing: anything leaving or crowding the frame (probe bounds), text holds and contrast ≥ 4.5:1
    - materials/lighting reading wrong (plastic instead of ceramic, chrome reading gray, glints flooding)
    - loop seam (frame N-1 → 0) for loops
 4. When a claim can be measured, measure it with the lab scripts available under the plugin root
-   (`node <LAB>/scripts/diff-frames.mjs a.png b.png --json`, probe.json values). Prefer measured notes.
+   (`<LAB>` is the absolute plugin root from your prompt; write it out, it is not set in the shell;
+   `node <LAB>/scripts/diff-frames.mjs a.png b.png --json`, probe.json values). Prefer measured notes.
 
 ## Output (JSON only, no prose around it)
 ```json

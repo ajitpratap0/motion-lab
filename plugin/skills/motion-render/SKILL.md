@@ -9,6 +9,8 @@ description: Render a frame-exact animation to PNG frames, stills, contact sheet
 `height` from the nearest `motion-lab.json` (walking up from the current directory); flags override it. Run from the
 project folder and pass flags only to deviate (e.g. a 24 fps GIF pass of a 60 fps scene).
 All tools: `node "$LAB/scripts/<tool>.mjs" --help`.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 | Need | Command |
 |---|---|
@@ -16,7 +18,7 @@ All tools: `node "$LAB/scripts/<tool>.mjs" --help`.
 | specific stills | `render.mjs anim.html --frames 0,60,84 --out out/stills` |
 | a range | `render.mjs anim.html --range 24-47` |
 | all frames | `render.mjs anim.html --secs 6 --fps 24 --width 1080 --height 1080` |
-| final 3D frames with motion blur | `render.mjs anim.html --fps 60 --subframes 4 --shutter 0.5 --gpu` |
+| final 3D frames with motion blur | `render.mjs anim.html --subframes <n> --shutter 0.5 --gpu` (n: see motion-export) |
 | crisp text | add `--scale 2`, downscale in export |
 | contact sheet | `contact-sheet.mjs --every 12 --cols 4 --labels` |
 | onion skin | `onion-skin.mjs --range 24-47 --opacity 0.25` |

@@ -7,6 +7,8 @@ description: Run the render-look-fix loop on a code-drawn animation - build a re
 
 `LAB` = two directories above this skill's base directory. Notes reference: `$LAB/reference/followups.md`;
 fixes: `$LAB/reference/fixes.md`.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 ## Each round
 1. `node "$LAB/scripts/lab.mjs" anim.html --stills <hit frames> --every 12` → `out/review/<ts>/pack.json`.

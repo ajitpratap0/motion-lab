@@ -7,6 +7,8 @@ description: Turn a vague motion brief into a directed prompt - every adjective 
 
 `LAB` = two directories above this skill's base directory. Read `$LAB/reference/template.md`, `numbers.md`,
 `banned.md`, and `principles.md` if characters move; read the chosen engine file in `reference/engines/`.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 ## Steps
 1. Extract from the brief and `motion-lab.json`: subject, platform/canvas, duration, loop, brand facts, copy.
@@ -28,7 +30,9 @@ description: Turn a vague motion brief into a directed prompt - every adjective 
 5. Show the user the prompt (or a 6-line summary for long prompts) and the beat/shot table before building.
 
 ## Quality bar
-A directed prompt for a 6 s piece is typically 250-500 words. If a line still contains an adjective without a number,
+A directed prompt for a 6 s 2D piece is typically 250-500 words; 3D prompts run 500-800 because MODEL, LIGHT and
+CAMERA need their own numbers. Length is not the goal: cut any line that does not change a frame.
+If a line still contains an adjective without a number,
 replace it. Each line should remove one decision the model would otherwise make.
 
 See `$LAB/reference/examples/` for complete directed prompts. They show the level of detail, not a house style:

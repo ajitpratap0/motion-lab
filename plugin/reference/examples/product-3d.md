@@ -11,7 +11,7 @@ TIME: 5 s loop, 60 fps = 300 frames, 96 BPM (1 beat = 37.5 frames; beats at roun
 MODEL (1 unit = 1 cm): body lathe profile, 8.4 tall, 7.2 top diameter tapering to 6.6, 0.35 lip radius; lid 7.4
 diameter, 1.6 tall, 0.08 chamfer; silicone ring 0.25 thick between them.
 LOOK: body glaze 2F3A33 (roughness 0.62, clearcoat 0.15), lid brushed steel (metalness 1, roughness 0.28, anisotropy 0.6),
-ring E9E2D6 (roughness 0.8). Backdrop EDE8E0 to D9D2C6 corners, dithered. Neutral tone mapping, 6% vignette,
+ring E9E2D6 (roughness 0.8). Backdrop EDE8E0 to D9D2C6 corners, dithered. AgX tone mapping, 6% vignette,
 1.5% grain seeded per frame.
 LIGHT: key FFF1E0 2.8 at (-6, 9, 7), soft shadows radius 4; fill E6EEF6 0.5 at (6, 2, 5); rim FFFFFF 3.5 at (3, 7, -9).
 PMREM studio built in code: warm gray dome 0.3, one overhead softbox 2.0, one strip 1.2 wide at 120° azimuth for the

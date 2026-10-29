@@ -12,7 +12,8 @@ import {defaultStills, frameCount} from './lib/timing.mjs';
 import {loadProjectConfig, resolveProjectOptions} from './lib/project.mjs';
 
 const usage = 'Usage: node scripts/lab.mjs <file.html> [--secs 6] [--fps 24] '
-  + '[--width 1080] [--height 1080] [--stills first,quarters,last] [--every 12] [--json]\n'
+  + '[--width 1080] [--height 1080] [--stills first,quarters,last] [--every 12]\n'
+  + '  [--linear-ok key,key] [--json]\n'
   + 'Defaults come from motion-lab.json when present.';
 
 async function createContactSheet(frameDirectory, every, output) {
@@ -24,7 +25,7 @@ async function createContactSheet(frameDirectory, every, output) {
   if (result.code !== 0) throw new Error(result.stderr.trim() || 'Contact sheet failed');
 }
 
-async function collectProbeArtifacts(file, options, directory, artifacts, writeArtifact) {
+async function collectProbeArtifacts(file, options, directory, artifacts, writeArtifact, linearOk) {
   let probeAvailable = false;
   await withPage(file, options, async page => {
     probeAvailable = await page.evaluate(() => typeof window.__probe === 'function');
@@ -34,7 +35,7 @@ async function collectProbeArtifacts(file, options, directory, artifacts, writeA
     const keys = Object.keys(data.frames[0] ?? {}).filter(key => key !== 'frame' && key !== 't');
     if (keys.length) {
       const speed = path.join(directory, 'speed.svg');
-      const graph = await speedGraph({probe, keys, out: speed});
+      const graph = await speedGraph({probe, keys, out: speed, linearOk});
       artifacts.push(speed);
       await writeArtifact('speed-findings.json', graph.findings);
     }
@@ -44,7 +45,11 @@ async function collectProbeArtifacts(file, options, directory, artifacts, writeA
 
 async function labCommand(args) {
   if (args._.length > 1) throw new Error('Expected one HTML file');
-  const options = resolveProjectOptions(args, await loadProjectConfig());
+  const config = await loadProjectConfig();
+  const options = resolveProjectOptions(args, config);
+  const linearOk = typeof args['linear-ok'] === 'string'
+    ? args['linear-ok'].split(',')
+    : (Array.isArray(config.linear_ok) ? config.linear_ok : []);
   const file = path.resolve(options.file);
   const count = frameCount(options.secs, options.fps);
   const every = number(args, 'every', 12, {min: 1, integer: true});
@@ -80,7 +85,7 @@ async function labCommand(args) {
   await createContactSheet(frameDirectory, every, contact);
   artifacts.push(contact);
   const probeAvailable = await collectProbeArtifacts(
-    file, options, directory, artifacts, writeArtifact
+    file, options, directory, artifacts, writeArtifact, linearOk
   );
   const packFile = path.join(directory, 'pack.json');
   artifacts.push(packFile);

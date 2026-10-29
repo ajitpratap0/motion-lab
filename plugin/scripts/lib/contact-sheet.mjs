@@ -23,7 +23,7 @@ export async function renderFFmpegSheet(files, {cols, width, out, labels = false
       const row = Math.floor(index / cols);
       return `${(index % cols) * width}_${row ? Array(row).fill('h0').join('+') : '0'}`;
     }).join('|');
-    filters.push(`${inputs}xstack=inputs=${files.length}:layout=${layout}:fill=black[out]`);
+    filters.push(`${inputs}xstack=inputs=${files.length}:layout=${layout}:fill=0x808080[out]`);
   }
   await checked([
     ...files.flatMap(file => ['-i', file]), '-filter_complex', filters.join(';'),
@@ -50,7 +50,7 @@ export async function renderBrowserSheet(files, {cols, width, out}) {
     * { box-sizing: border-box; }
     html, body { margin: 0; width: ${sheetWidth}px; height: ${sheetHeight}px; }
     body { display: grid; grid-template-columns: repeat(${Math.min(cols, files.length)},
-      ${width}px); grid-auto-rows: ${tileHeight + captionHeight}px; background: black; }
+      ${width}px); grid-auto-rows: ${tileHeight + captionHeight}px; background: #808080; }
     figure { margin: 0; width: ${width}px; }
     img { display: block; width: ${width}px; height: ${tileHeight}px; }
     figcaption { height: ${captionHeight}px; line-height: ${captionHeight}px;

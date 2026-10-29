@@ -6,6 +6,8 @@ description: Diagnose and fix common code-drawn animation failures - flicker/jit
 # Fix a broken experiment
 
 `LAB` = two directories above this skill's base directory. Symptom table: `$LAB/reference/fixes.md`.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 1. Reproduce at the exact frame: `render.mjs anim.html --frames <N-1>,<N>,<N+1>`.
 2. Lint first; most flicker is a contract violation: `contract-lint.mjs anim.html`.

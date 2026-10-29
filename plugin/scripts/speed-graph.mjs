@@ -7,7 +7,8 @@ import { analyzeSeries } from './lib/analysis.mjs';
 import { withPage } from './lib/page.mjs';
 
 const usage = 'Usage: node scripts/speed-graph.mjs [--probe out/probe.json] '
-  + '--keys x,scale [--out out/speed.svg] [--png] [--json]';
+  + '--keys x,scale [--linear-ok rotorAngle] [--out out/speed.svg] [--png] [--json]\n'
+  + '--linear-ok marks linear runs on keys the prompt declares linear as intended.';
 
 function stackCharts(charts) {
   const height = charts.length * 400;
@@ -33,6 +34,7 @@ export async function speedGraph({
   keys,
   out = 'out/speed.svg',
   png = false,
+  linearOk = [],
 }) {
   const data = JSON.parse(await readFile(probe, 'utf8'));
   if (!Array.isArray(data.frames) || !data.frames.length) {
@@ -46,7 +48,10 @@ export async function speedGraph({
   const charts = [];
   for (const key of keys) {
     const result = analyzeSeries(data.frames.map(frame => frame[key]), key);
-    findings.push(...result.findings);
+    const intended = linearOk.includes(key);
+    findings.push(...result.findings.map(finding => (
+      intended && finding.type === 'linear-run' ? { ...finding, intended: true } : finding
+    )));
     charts.push(lineChart({
       series: [
         { name: key, values: result.values },
@@ -74,6 +79,7 @@ function runSpeedGraph(args) {
     keys: typeof args.keys === 'string' ? args.keys.split(',') : [],
     out: args.out,
     png: Boolean(args.png),
+    linearOk: typeof args['linear-ok'] === 'string' ? args['linear-ok'].split(',') : [],
   });
 }
 

@@ -6,6 +6,8 @@ description: Prove a code-drawn animation matches its prompt - turn every number
 # Numeric audit
 
 `LAB` = two directories above this skill's base directory.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 1. Make sure `window.__probe(t)` exposes the values the checks need (hero positions, screen bounds, flags per
    labeled event, lid angles, opacities). Add probes rather than weakening checks.

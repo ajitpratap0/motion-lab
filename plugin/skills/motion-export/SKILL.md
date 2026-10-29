@@ -6,9 +6,15 @@ description: Export a finished animation for X and the web - full frame render (
 # Export
 
 `LAB` = two directories above this skill's base directory. Limits and rationale: `$LAB/reference/export-x.md`.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 1. Final frames: `render.mjs anim.html --secs <s> --fps <fps> --width <w> --height <h>` (3D: add
-   `--fps 60 --subframes 4 --shutter 0.5 --gpu`). Remove dev aids first (`inject.mjs --remove`, no `?debug`).
+   `--subframes <n> --shutter 0.5 --gpu` at the brief's fps; 60 fps only if the brief asks for it). Pick `n` from
+   the fastest rotation: ghost spacing = degrees per frame x shutter / n; keep it at or under 1.5 deg, so
+   `n = max(4, ceil(deg_per_frame x shutter / 1.5))` (32 deg/frame at 0.5 shutter needs 11; use 12). For fast
+   translation use pixels per frame with a 2 px limit. Zoom on the fastest frame to confirm no stepped copies.
+   Remove dev aids first (`inject.mjs --remove`, no `?debug`).
 2. MP4 for posts: `export.mjs mp4 --fps <fps> --out out/anim.mp4 [--audio out/score.wav --loudnorm]`.
 3. GIF for X Articles / inline loops (≤ 350 frames, ≤ 1280 wide, ≤ 15 MB):
    `export.mjs gif --fps 24 --width 1200 --out out/anim.gif`. For 60 fps sources, render a 24 fps pass for the GIF.

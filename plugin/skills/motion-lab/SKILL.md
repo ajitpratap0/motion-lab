@@ -11,6 +11,8 @@ number, and you can check your own work. Direction does the heavy lifting; the l
 Paths: `LAB` = two directories above this skill's base directory (the plugin root).
 Scripts: `node "$LAB/scripts/<tool>.mjs"`, run from the project folder; they take `file`/`secs`/`fps`/`width`/`height`
 from `motion-lab.json`, and flags override. References: `$LAB/reference/`.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 ## Pipeline (run in order; each step is its own skill you can also call directly)
 
@@ -30,6 +32,9 @@ from `motion-lab.json`, and flags override. References: `$LAB/reference/`.
 8. **Receipts** (`motion-receipts`) - the `motion-receipts` agent turns `RECEIPTS.md` into a post + reply thread.
 
 Stop and show the user stills (contact sheet) after step 3 and after the last review round; they direct, you execute.
+Headless runs (the user said not to ask questions, or there is no one to answer): do not stop; make each choice,
+write it into `PROMPT.md` or `RECEIPTS.md`, and keep going. Ask only when a missing fact would make the piece wrong
+(brand copy, a logo you were not given).
 
 ## Defaults
 - Effort: medium. Raise only when a from-scratch piece misses twice.

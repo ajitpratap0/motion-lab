@@ -6,6 +6,8 @@ description: Set up a Motion Lab project - verify node, ffmpeg and Playwright Ch
 # Motion Lab setup
 
 `LAB` = two directories above this skill's base directory.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 ## 1. Check tools (report what is missing; do not install system packages without asking)
 ```bash
@@ -30,6 +32,7 @@ node -e "import('playwright').then(()=>console.log('playwright ok')).catch(()=>c
   "width": 1080, "height": 1080, "fps": 24, "secs": 6, "loop": true,
   "bpm": 120,
   "banned": [],
+  "linear_ok": [],
   "contract_extra": [],
   "receipts": true
 }
@@ -52,6 +55,9 @@ Model: <model> | effort: medium
 ## Technical fixes (not counted)
 ```
 Create `out/` and add `out/` and `node_modules/` to `.gitignore` if the folder is a git repo.
+
+`linear_ok` lists probe keys the prompt declares linear (a constant-speed spin, a scroll); the review pack marks
+their linear runs `intended` instead of flagging them.
 
 Keep this file valid JSON: if it fails to parse, the scripts warn and use built-in defaults, and the receipts hook
 stops logging until it is fixed.

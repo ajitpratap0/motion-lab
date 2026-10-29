@@ -8,6 +8,8 @@ description: Build the animation from PROMPT.md as one frame-exact file (plain H
 `LAB` = two directories above this skill's base directory. Read `PROMPT.md`, `$LAB/reference/contract.md`, the
 engine file in `$LAB/reference/engines/`, and use `$LAB/reference/motion-tokens.js` (inline it into the HTML, or
 import it relatively) for every easing, spring, beat and hold - no inline motion numbers.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 ## Rules
 - One file (`motion-lab.json.file`, default `anim.html`), libraries pinned to exact versions, no other network.
@@ -26,4 +28,7 @@ node "$LAB/scripts/contract-lint.mjs" anim.html        # must exit 0
 node "$LAB/scripts/render.mjs" anim.html --secs <s> --fps <fps> --width <w> --height <h> --frames 0,<hit1>,<hit2>,<N-1>
 ```
 Open the stills (Read the PNGs) and compare each with the shot list before declaring the first build done.
+If the prompt makes a value move at constant speed on purpose (a steady spin, a scroll), add its probe key to
+`linear_ok` in `motion-lab.json` so the review pack does not flag it.
+
 Log technical fixes (capture hooks, font loading) under `## Technical fixes` in `RECEIPTS.md`, not as follow-ups.

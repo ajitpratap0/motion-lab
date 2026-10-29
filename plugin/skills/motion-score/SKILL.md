@@ -6,6 +6,8 @@ description: Score a code-drawn animation with sound synthesized in code (Web Au
 # Score from frame numbers
 
 `LAB` = two directories above this skill's base directory. Read `$LAB/reference/sound.md` first.
+`LAB` is an absolute path, not a shell variable: start each Bash call with `LAB=<path>;` and write the path
+itself into agent prompts.
 
 1. Picture is locked first (audit passing). Read `window.__events` (or the timeline table).
 2. Write the sound prompt (shape in sound.md) into `SOUND.md`, mapping every event frame to a sound, the bed by bar,

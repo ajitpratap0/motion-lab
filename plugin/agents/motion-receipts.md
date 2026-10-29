@@ -13,7 +13,8 @@ Read RECEIPTS.md. Write `out/post.md`. Do not paraphrase prompts or follow-ups; 
 Two prompts, never conflated: the **user brief** (`## User brief`, what the human typed) and the **directed prompt**
 (`## Prompt`, the PROMPT.md text the model wrote from the brief). Show both verbatim and label who wrote each.
 
-Counts (compute exactly): brief words; directed prompt words; creative follow-ups (numbered items under `## Creative follow-ups`); sound
+Counts: use the brief and prompt word counts given in your prompt (the skill measures them with `wc -w`); count
+the rest exactly: creative follow-ups (numbered items under `## Creative follow-ups`); sound
 follow-ups; technical fixes are listed but NOT counted as follow-ups; audit result line if present.
 
 `out/post.md` layout:
@@ -26,8 +27,10 @@ follow-ups; technical fixes are listed but NOT counted as follow-ups; audit resu
 <verbatim user brief>
 
 ## Reply 2 - directed prompt (written by the model from the brief)
-<verbatim directed prompt, split into consecutive replies of ≤ 280 chars at line boundaries if platform is X without
-long posts>
+<verbatim directed prompt. Default: one long post (X Premium) or, if the user has no long posts, a single
+screenshot-ready block plus "full prompt in PROMPT.md". Only split when the user asks; then split at field lines
+(GOAL, OUTPUT, TIME, LOOK, MOTION, SHOTS, ...), joining wrapped lines first, never mid-sentence; if one field is
+longer than 280 chars split it at sentence ends.>
 
 ## Reply 3 - follow-ups
 <round headers and numbered follow-ups verbatim>

@@ -40,3 +40,25 @@ test('receipts hook does nothing outside a project or when disabled', async () =
   assert.equal(runHook(off, 'hello').status, 0);
   await assert.rejects(readFile(path.join(off, 'RECEIPTS.md')));
 });
+
+test('linear-run flags linear easing but not a smooth cosine drift', async () => {
+  const { analyzeSeries } = await import('../scripts/lib/analysis.mjs');
+  const linear = analyzeSeries(Array.from({ length: 20 }, (_, frame) => frame * 3), 'x');
+  assert.ok(linear.findings.some(finding => finding.type === 'linear-run'));
+  const drift = analyzeSeries(
+    Array.from({ length: 120 }, (_, frame) => 25 + 3 * Math.cos((2 * Math.PI * frame) / 120)), 'azimuth',
+  );
+  assert.equal(drift.findings.filter(finding => finding.type === 'linear-run').length, 0);
+});
+
+test('speed-graph marks declared linear keys as intended', async () => {
+  const { speedGraph } = await import('../scripts/speed-graph.mjs');
+  const dir = await mkdtemp(path.join(tmpdir(), 'ml-speed-'));
+  const frames = Array.from({ length: 20 }, (_, frame) => ({ frame, spin: frame * 32, x: frame * 2 }));
+  const probe = path.join(dir, 'probe.json');
+  await writeFile(probe, JSON.stringify({ frames }));
+  const result = await speedGraph({ probe, keys: ['spin', 'x'], out: path.join(dir, 's.svg'), linearOk: ['spin'] });
+  const runs = result.findings.filter(finding => finding.type === 'linear-run');
+  assert.ok(runs.some(finding => finding.key === 'spin' && finding.intended === true));
+  assert.ok(runs.some(finding => finding.key === 'x' && !finding.intended));
+});

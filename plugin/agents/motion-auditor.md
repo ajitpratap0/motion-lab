@@ -11,6 +11,8 @@ maxTurns: 30
 You write `audit.json`. You never edit the scene.
 
 ## Inputs
+- `LAB`: the plugin root as an absolute path, given in your prompt. Shell variables do not persist between
+  Bash calls, so write the path into every command (`node /abs/path/scripts/audit.mjs`).
 - PROMPT.md, the scene file, `out/probe.json` (sample of `__probe` keys and values per frame), fps/secs.
 
 ## Method
@@ -22,7 +24,9 @@ You write `audit.json`. You never edit the scene.
    - event on frame F: flag == 1 at F and == 0 at F-1
    - landing on frame F: `contactY - targetY ~= 0` (tol from scale of scene) at F, and > tol at F-2
    - hold from A to B: value at A ~= value at B (tol), and changes at B+2
-   - overshoot p%: max over the range (use several frame checks around the expected peak)
+   - overshoot p%: compute the expected peak frame and value from the spring formula (or read them from probe.json),
+     check that peak once with a tolerance of about 10% of the overshoot, and check settle (`~=` rest) at the stated
+     settle frame. Never assert exact values on in-between frames of a spring: sampling and rounding make them flaky
    - in frame: screen bounds within [0, W] x [0, H] at sampled frames across the range (every 6 frames)
    - always add `{"type":"loop"}` for loops and one `{"type":"deterministic","frame":<busiest frame>}`
 4. Give each check a stable id: `<thing>-<what>-f<frame>`.
