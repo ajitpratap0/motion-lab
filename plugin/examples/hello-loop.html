@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hello loop</title>
+  <style>
+    html, body {
+      margin: 0;
+      width: 1080px;
+      height: 1080px;
+      overflow: hidden;
+      background: #f4f0e9;
+      color: #142137;
+      font-family: Arial, sans-serif;
+    }
+    #square {
+      position: absolute;
+      left: 180px;
+      top: 480px;
+      width: 120px;
+      height: 120px;
+      background: #ec613d;
+      border-radius: 20px;
+    }
+    h1 {
+      position: absolute;
+      left: 120px;
+      top: 170px;
+      font-size: 72px;
+      margin: 0;
+    }
+    p {
+      position: absolute;
+      left: 120px;
+      bottom: 100px;
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <h1 id="title">Time draws the frame.</h1>
+  <div id="square"></div>
+  <p>A pure four second loop · 120 BPM</p>
+  <script>
+    const duration = 4;
+    const fps = 24;
+    const phase = time => ((time % duration) + duration) % duration;
+    const ease = progress => progress < 0.5
+      ? 8 * progress * progress * progress * progress
+      : 1 - 8 * (1 - progress) ** 4;
+
+    window.__probe = time => {
+      const progress = phase(time) / duration;
+      const travel = progress < 0.5 ? ease(progress * 2) : ease((1 - progress) * 2);
+      return {
+        x: 600 * travel,
+        scale: 1 + 0.15 * Math.sin(2 * Math.PI * progress),
+        rot: time / duration * 90,
+        title: phase(time) < 1.1 ? 1 : 0,
+      };
+    };
+
+    window.renderAt = time => {
+      const values = window.__probe(time);
+      document.querySelector('#square').style.transform = [
+        `translateX(${values.x}px)`,
+        `rotate(${values.rot}deg)`,
+        `scale(${values.scale})`,
+      ].join(' ');
+      document.querySelector('#title').style.opacity = values.title;
+    };
+
+    window.__events = [{ frame: 0, name: 'title' }, { frame: 48, name: 'turn' }];
+    window.renderAudio = async ({ sampleRate = 48000, secs = 4, bedOnly = false } = {}) => {
+      const context = new OfflineAudioContext(2, Math.round(sampleRate * secs), sampleRate);
+      const tone = (time, frequency, length, amplitude, kick = false) => {
+        if (time >= secs) return;
+        const oscillator = context.createOscillator();
+        const gain = context.createGain();
+        oscillator.frequency.setValueAtTime(frequency, time);
+        if (kick) oscillator.frequency.exponentialRampToValueAtTime(42, time + length);
+        gain.gain.setValueAtTime(amplitude, time);
+        gain.gain.exponentialRampToValueAtTime(0.00001, time + length);
+        oscillator.connect(gain).connect(context.destination);
+        oscillator.start(time);
+        oscillator.stop(Math.min(secs, time + length));
+      };
+      for (let beat = 0; beat * 0.5 < secs; beat++) {
+        tone(beat * 0.5 + 1 / fps, 140, 0.18, 0.3, true);
+      }
+      if (!bedOnly) {
+        for (const event of window.__events) {
+          tone((event.frame + 1) / fps, 1800, 0.025, 0.15);
+        }
+      }
+      const buffer = await context.startRendering();
+      return {
+        sampleRate: buffer.sampleRate,
+        channels: Array.from(
+          { length: buffer.numberOfChannels },
+          (_, index) => buffer.getChannelData(index),
+        ),
+      };
+    };
+    window.__ready = Promise.resolve();
+    window.renderAt(0);
+  </script>
+</body>
+</html>

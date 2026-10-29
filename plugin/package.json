@@ -6,7 +6,7 @@
   "description": "Frame-exact render, review, audit, sound and export tooling for code-drawn motion design.",
   "engines": { "node": ">=20" },
   "scripts": {
-    "test": "node --test test/"
+    "test": "node --test \"test/*.test.mjs\""
   },
   "peerDependencies": { "playwright": ">=1.40.0" },
   "peerDependenciesMeta": { "playwright": { "optional": false } }

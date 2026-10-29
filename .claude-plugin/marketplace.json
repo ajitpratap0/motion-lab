@@ -1,0 +1,19 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "motion-lab",
+  "metadata": {
+    "description": "Directed, frame-exact motion design with Claude: prompt anatomy, render contract, self-review loop, numeric audits, code-synthesized sound and X-ready export."
+  },
+  "owner": { "name": "Ajit Pratap Singh" },
+  "plugins": [
+    {
+      "name": "motion-lab",
+      "description": "Turn a brief into a directed motion prompt, build it as one frame-exact HTML file, render, review frame by frame, audit the numbers, score it with Web Audio and export for X.",
+      "version": "0.1.0",
+      "author": { "name": "Ajit Pratap Singh" },
+      "source": "./plugin",
+      "category": "design",
+      "tags": ["motion", "animation", "three.js", "remotion", "gsap", "video", "sound", "ffmpeg"]
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Deliberately broken render contract</title>
+<style>#box{width:100px;transition:width 1s}</style>
+<script src="https://cdn.jsdelivr.net/npm/example/index.js"></script>
+</head><body><div id="box"></div><script>
+setInterval(() => {
+  const t=Date.now()/1000;
+  document.querySelector('#box').style.width=(100+Math.random()*100+Math.sin(t)*10)+'px';
+},16);
+</script></body></html>
