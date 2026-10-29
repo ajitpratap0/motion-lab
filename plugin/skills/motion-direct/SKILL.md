@@ -23,11 +23,13 @@ description: Turn a vague motion brief into a directed prompt - every adjective 
      (product → turntable, halo; tech → particles, neon; logo → glow).
    - QA: stills at the hit frames, contact sheet, audits; frame N-1 flows into frame 0 for loops.
 3. Append the render contract (`reference/contract.md`) plus any `contract_extra` lines.
-4. Write `PROMPT.md`, then copy the full prompt into `RECEIPTS.md` under `## Prompt` with its word count.
+4. Write `PROMPT.md`, then copy the full prompt into `RECEIPTS.md` under `## Prompt` with its word count. Keep the
+   user's original brief verbatim under `## User brief` (add it if missing).
 5. Show the user the prompt (or a 6-line summary for long prompts) and the beat/shot table before building.
 
 ## Quality bar
 A directed prompt for a 6 s piece is typically 250-500 words. If a line still contains an adjective without a number,
 replace it. Each line should remove one decision the model would otherwise make.
 
-See `$LAB/reference/examples/` for complete directed prompts.
+See `$LAB/reference/examples/` for complete directed prompts. They show the level of detail, not a house style:
+derive palette, type and layout from this brief, and never copy an example's hex values or fonts.

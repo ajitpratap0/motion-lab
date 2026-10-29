@@ -8,11 +8,11 @@ import {withPage} from './lib/page.mjs';
 import {collectProbe} from './probe.mjs';
 import {speedGraph} from './speed-graph.mjs';
 import {run} from './lib/ffmpeg.mjs';
-import {frameCount} from './lib/timing.mjs';
+import {defaultStills, frameCount} from './lib/timing.mjs';
 import {loadProjectConfig, resolveProjectOptions} from './lib/project.mjs';
 
 const usage = 'Usage: node scripts/lab.mjs <file.html> [--secs 6] [--fps 24] '
-  + '[--width 1080] [--height 1080] [--stills 0,24,48,72,96] [--every 12] [--json]\n'
+  + '[--width 1080] [--height 1080] [--stills first,quarters,last] [--every 12] [--json]\n'
   + 'Defaults come from motion-lab.json when present.';
 
 async function createContactSheet(frameDirectory, every, output) {
@@ -49,7 +49,7 @@ async function labCommand(args) {
   const count = frameCount(options.secs, options.fps);
   const every = number(args, 'every', 12, {min: 1, integer: true});
   const stills = args.stills === undefined
-    ? [0, 24, 48, 72, 96].filter(frame => frame < count)
+    ? defaultStills(count)
     : selectedFrames({frames: args.stills}, count);
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
   const directory = path.resolve('out', 'review', timestamp);

@@ -1,5 +1,8 @@
 # Example: 2D kinetic type loop (plain HTML)
 
+The numbers show the level of direction a prompt needs. The palette, type and layout belong to this example only;
+derive your own from each brief.
+
 ```
 GOAL: a two-word studio name lands with weight, holds long enough to read, and folds back into a single bar, so the
 viewer remembers the name.

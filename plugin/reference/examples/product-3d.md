@@ -1,5 +1,8 @@
 # Example: 3D product loop (three.js)
 
+The numbers show the level of direction a prompt needs. The palette, type and layout belong to this example only;
+derive your own from each brief.
+
 ```
 GOAL: a studio film for a matte ceramic travel mug: the lid twists open, steam curls out once, the lid seats back
 with a satisfying click, so the viewer feels the build quality.

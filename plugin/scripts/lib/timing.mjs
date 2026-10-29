@@ -69,3 +69,13 @@ export function gifDelays(count, fps) {
     Math.round(100 * (frame + 1) / fps) - Math.round(100 * frame / fps)
   ));
 }
+
+/**
+ * Default review stills: the first frame, the quarter points and the last frame, all inside 0..count-1.
+ * @param {number} count Frame count.
+ * @returns {number[]}
+ */
+export function defaultStills(count) {
+  const points = [0, 0.25, 0.5, 0.75].map(fraction => Math.floor(fraction * count));
+  return [...new Set([...points, count - 1])].filter(frame => frame >= 0 && frame < count);
+}

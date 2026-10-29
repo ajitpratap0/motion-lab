@@ -14,6 +14,8 @@ description: Export a finished animation for X and the web - full frame render (
    `export.mjs gif --fps 24 --width 1200 --out out/anim.gif`. For 60 fps sources, render a 24 fps pass for the GIF.
 4. Validate: `export.mjs xcheck out/anim.mp4` and `export.mjs xcheck out/anim.gif` (non-zero exit = violation;
    fix by lowering width/fps/duration, not by recompressing blindly).
-5. Loops: `export.mjs loopcheck out/anim.mp4` and look at the seam in the 3x file's contact sheet.
+5. Loops: `export.mjs loopcheck out/anim.mp4` writes `out/loop_check.mp4` (3 plays back to back) to watch. Prove the
+   seam with `diff-frames.mjs out/frames/<N-1>.png out/frames/0000.png`: the change across the seam should match a
+   neighbouring pair such as `<N-2>.png` vs `<N-1>.png` (a much larger or zero diff in a moving piece is a hitch).
 6. Check frame 0 is a finished composition (it is the thumbnail and the GIF's loading frame).
 7. Report the file paths, sizes, durations and xcheck tables. Then offer `motion-receipts`.

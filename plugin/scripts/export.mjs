@@ -1,3 +1,4 @@
+import {Console} from 'node:console';
 import {readFile, writeFile, stat} from 'node:fs/promises';
 import {cli, number, ensureParent} from './lib/args.mjs';
 import {checked, probe} from './lib/ffmpeg.mjs';
@@ -71,7 +72,7 @@ function videoChecks(metadata, video, add) {
   add('Pixel format', video.pix_fmt, 'yuv420p', video.pix_fmt === 'yuv420p');
   add('Duration', duration, '<= 140 s', duration <= 140);
   add('Frame rate', rate, '<= 60 fps', rate > 0 && rate <= 60);
-  add('Dimensions', `${width}x${height}`, '1920x1080 or 1080x1920',
+  add('Dimensions', `${width}x${height}`, 'within 1920x1080 or 1080x1920',
     (width <= 1920 && height <= 1080) || (width <= 1080 && height <= 1920));
   add('Aspect', width / height, '1:3 to 3:1', width / height >= 1 / 3 && width / height <= 3);
   add('Audio', audio.map(stream => stream.codec_name).join(',') || 'none',
@@ -94,7 +95,8 @@ async function checkX(args, file) {
     videoChecks(metadata.data, video, add);
   }
   const allPassed = checks.every(check => check.ok);
-  if (!args.json) console.table(checks);
+  // The table goes to stderr so stdout stays a single JSON document either way.
+  if (!args.json) new Console(process.stderr).table(checks);
   if (!allPassed) process.exitCode = 3;
   return {file, ok: allPassed, checks};
 }

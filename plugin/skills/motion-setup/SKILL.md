@@ -39,8 +39,11 @@ node -e "import('playwright').then(()=>console.log('playwright ok')).catch(()=>c
 # Receipts: <name>
 Model: <model> | effort: medium
 
+## User brief
+(the user's original request, verbatim, as a > quote; it is the prompt the human actually typed)
+
 ## Prompt
-(filled by motion-direct)
+(the directed prompt from PROMPT.md, filled by motion-direct; written by the model from the brief)
 
 ## Creative follow-ups
 
@@ -53,8 +56,12 @@ Create `out/` and add `out/` and `node_modules/` to `.gitignore` if the folder i
 Keep this file valid JSON: if it fails to parse, the scripts warn and use built-in defaults, and the receipts hook
 stops logging until it is fixed.
 
-The `receipts` flag lets the plugin's UserPromptSubmit hook append the user's raw prompts to `RECEIPTS.md`
-under `## Raw log`; set it to false to disable.
+Paste the brief that started this run under `## User brief` when you create the file: the setup step runs after
+the first prompt, so the hook cannot have logged it.
+
+The `receipts` flag lets the plugin's UserPromptSubmit hook append the user's later prompts to `RECEIPTS.md`
+under `## Raw log` (it creates the file if `motion-lab.json` exists and `RECEIPTS.md` does not); set it to false to
+disable.
 
 ## 3. Optional: live preview helpers
 `node "$LAB/scripts/inject.mjs" anim.html` adds the `?t=` freeze hook, `?counter=1` frame counter and space-to-pause.
