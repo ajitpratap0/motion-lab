@@ -1,0 +1,13 @@
+{
+  "name": "motion-lab-scripts",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Frame-exact render, review, audit, sound and export tooling for code-drawn motion design.",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "test": "node --test test/"
+  },
+  "peerDependencies": { "playwright": ">=1.40.0" },
+  "peerDependenciesMeta": { "playwright": { "optional": false } }
+}
