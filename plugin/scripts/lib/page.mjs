@@ -56,7 +56,11 @@ export async function openPage(file, {width = 1080, height = 1080, scale = 1, gp
   const browser = await chromium.launch({headless: true, args});
   try {
     const page = await browser.newPage({viewport: {width, height}, deviceScaleFactor: scale});
-    await page.goto(pathToFileURL(path.resolve(file)).href, {waitUntil: 'load', timeout: 30000});
+    // Open with ?t=0 so scenes take their frozen branch and never start a live preview loop that would
+    // redraw between freeze() and the screenshot.
+    const url = pathToFileURL(path.resolve(file));
+    url.searchParams.set('t', '0');
+    await page.goto(url.href, {waitUntil: 'load', timeout: 30000});
     await waitForReadiness(page);
     return {browser, page, close: () => browser.close()};
   } catch (error) {

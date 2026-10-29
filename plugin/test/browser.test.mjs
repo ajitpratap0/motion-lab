@@ -36,6 +36,31 @@ test('freeze follows renderAt and produces repeatable frames', {skip: browserSki
   }
 });
 
+test('scenes with a live preview loop still render frozen frames', {skip: browserSkip}, async () => {
+  const dir = await mkdtemp(path.join(tmpdir(), 'motion-live-'));
+  const file = path.join(dir, 'live.html');
+  await writeFile(file, `<!doctype html><html><body style="margin:0"><canvas id="c" width="64" height="64"></canvas>
+<script>
+const ctx = document.getElementById('c').getContext('2d');
+window.renderAt = (t) => { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 64, 64); ctx.fillStyle = '#000'; ctx.fillRect((t * 40) % 64, 0, 8, 64); };
+window.__ready = true;
+if (!new URLSearchParams(location.search).has('t')) {
+  const loop = (now) => { window.renderAt(now / 1000); requestAnimationFrame(loop); };
+  requestAnimationFrame(loop);
+}
+</script></body></html>`);
+  const opened = await openPage(file, {width: 64, height: 64});
+  try {
+    await freeze(opened.page, 0.5);
+    const first = await opened.page.screenshot();
+    await opened.page.waitForTimeout(150);
+    assert.deepEqual(await opened.page.screenshot(), first);
+  } finally {
+    await opened.close();
+    await rm(dir, {recursive: true, force: true});
+  }
+});
+
 test('speed graph rasterizes within its exact SVG viewport', {skip: browserSkip}, async () => {
   const directory = await mkdtemp(path.join(tmpdir(), 'motion-speed-png-'));
   try {
