@@ -4,6 +4,8 @@ All notable changes are listed here. The format follows [Keep a Changelog](https
 and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+
+## [0.1.1] - 2026-10-31
 ### Added
 - README rewrite with demo media, quick start, pipeline overview and configuration reference.
 - Contributing guide, code of conduct, security policy, issue and PR templates.
@@ -21,5 +23,6 @@ and the project uses [Semantic Versioning](https://semver.org/).
   three.js, Remotion, HyperFrames and Motion.
 - Tried end to end on a plain-HTML kinetic-type loop and a three.js product loop.
 
-[Unreleased]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ajitpratap0/motion-lab/releases/tag/v0.1.0

@@ -9,7 +9,7 @@
     {
       "name": "motion-lab",
       "description": "Turn a brief into a directed motion prompt, build it as one frame-exact HTML file, render, review frame by frame, audit the numbers, score it with Web Audio and export for X.",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "author": { "name": "Ajit Pratap Singh" },
       "source": "./plugin",
       "category": "design",
