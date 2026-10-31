@@ -1,0 +1,36 @@
+name: Bug report
+description: A script, skill, hook or agent did the wrong thing
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you ran or asked for, what you expected, and what you got. Paste exact error text.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: How to reproduce
+      description: The brief or command, plus motion-lab.json and the scene file if you can share them.
+    validations:
+      required: true
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      description: motion-lab version, Claude Code version, Node, ffmpeg, Playwright, OS
+      placeholder: "motion-lab 0.1.0, Claude Code 2.1.x, Node 22, ffmpeg 7.1, Playwright 1.58, macOS 15"
+    validations:
+      required: true
+  - type: dropdown
+    id: engine
+    attributes:
+      label: Engine
+      options: [plain HTML, three.js, Remotion, HyperFrames, Motion, other]
+  - type: textarea
+    id: output
+    attributes:
+      label: Frames, contact sheet or logs
+      description: Drag in a still, contact sheet or the script's --json output if it helps.
