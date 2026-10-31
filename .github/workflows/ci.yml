@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: plugin
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
+      - name: Install Playwright and Chromium
+        run: |
+          npm i --no-save --no-package-lock playwright@1.58
+          npx playwright install --with-deps chromium
+      - name: Test
+        run: npm test
+      - name: Lint example scenes
+        run: |
+          node scripts/contract-lint.mjs examples/hello-loop.html
+          node scripts/contract-lint.mjs examples/skeleton.html
+          set +e
+          node scripts/contract-lint.mjs examples/bad-contract.html > /dev/null
+          code=$?
+          set -e
+          test "$code" -eq 3
+      - name: Every CLI answers --help
+        run: for script in scripts/*.mjs; do node "$script" --help > /dev/null; done
