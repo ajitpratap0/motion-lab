@@ -194,7 +194,7 @@ flag them.
 
 ## Status and limitations
 
-v0.1.0. Tested end to end on a plain-HTML kinetic-type loop and a three.js product loop: direct, build, review,
+v0.1.1. Tested end to end on a plain-HTML kinetic-type loop and a three.js product loop: direct, build, review,
 audit, export and receipts.
 
 - Remotion (4.0.536), HyperFrames (0.8.217) and Motion (14.2.0) were each checked with a small scene: render,

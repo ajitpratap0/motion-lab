@@ -1,7 +1,7 @@
 {
   "name": "motion-lab",
   "description": "Directed, frame-exact motion design: prompt anatomy, render contract, render/review/fix loop, numeric audits, Web Audio scoring and X export.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": {
     "name": "Ajit Pratap Singh"
   },
