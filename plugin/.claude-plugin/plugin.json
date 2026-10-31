@@ -2,8 +2,20 @@
   "name": "motion-lab",
   "description": "Directed, frame-exact motion design: prompt anatomy, render contract, render/review/fix loop, numeric audits, Web Audio scoring and X export.",
   "version": "0.1.0",
-  "author": { "name": "Ajit Pratap Singh" },
+  "author": {
+    "name": "Ajit Pratap Singh"
+  },
+  "homepage": "https://github.com/ajitpratap0/motion-lab",
+  "repository": "https://github.com/ajitpratap0/motion-lab",
   "license": "MIT",
-  "keywords": ["motion", "animation", "three.js", "remotion", "gsap", "ffmpeg", "playwright"],
+  "keywords": [
+    "motion",
+    "animation",
+    "three.js",
+    "remotion",
+    "gsap",
+    "ffmpeg",
+    "playwright"
+  ],
   "skills": "./skills/"
 }

@@ -10,11 +10,19 @@ and honest receipts beat "one prompt".
 
 ## Install
 ```
-claude plugin marketplace add ~/dev/motion-lab
+claude plugin marketplace add ajitpratap0/motion-lab
 claude plugin install motion-lab@motion-lab
 ```
+Or inside a session: `/plugin marketplace add ajitpratap0/motion-lab`, then `/plugin install motion-lab@motion-lab`.
+
 Per project: Node ≥ 20, ffmpeg/ffprobe on PATH, `npm i -D playwright && npx playwright install chromium`
-(`/motion-lab:motion-setup` checks and scaffolds).
+(`/motion-lab:motion-setup` checks and scaffolds). Engine-specific skills pair well with it: the official
+Remotion, HyperFrames, GSAP and Motion plugins.
+
+## Status
+v0.1.0. Tried end to end on a 2D kinetic-type loop and a three.js product loop (render, review, audit, export,
+receipts). Sound scoring and the Remotion, HyperFrames and Motion paths are covered by tests and fixtures but have
+not yet had a full project run; reports welcome.
 
 ## Skills
 | Skill | Does |
@@ -47,3 +55,6 @@ Run `node plugin/scripts/<tool>.mjs --help`. Tests: `cd plugin && npm test`.
 ## References (`plugin/reference/`)
 `template.md` · `contract.md` · `numbers.md` · `motion-tokens.js` · `banned.md` · `principles.md` · `followups.md` ·
 `fixes.md` · `sound.md` · `export-x.md` · `engines/` (html, threejs, remotion, hyperframes, motion-react) · `examples/`.
+
+## License
+MIT. See `LICENSE`.
