@@ -4,6 +4,7 @@
 |---|---|
 | flicker or jitter | make every value a pure function of t; replace Math.random with a seeded generator; remove timers and CSS transitions |
 | wrong or fallback font | load with `display=block`; await `document.fonts.ready` before `__ready` |
+| final render differs from reviewed frames | system fonts (Georgia, Helvetica) resolve differently in each renderer's Chromium: load a web font instead |
 | hiccup at the loop seam | render frames 0..N-1 only; drive the loop from `phase = frame / N` with whole cycles |
 | audio drifts off the beat | each beat = `round(n·60/BPM·fps)`; never add a rounded frame count |
 | jank / dropped frames (live) | animate only transform and opacity; never width, height, top, left |

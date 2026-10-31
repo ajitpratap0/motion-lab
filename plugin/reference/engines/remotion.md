@@ -24,6 +24,9 @@ npm run dev                 # Remotion Studio
 npx remotion render <CompId> out/video.mp4
 ```
 
+Verified on remotion and @remotion/cli 4.0.536 with React 18.3.1: `render --sequence`, `still`, and the lab's
+contact-sheet, onion-skin, diff-frames, export and xcheck on its output.
+
 ## OUTPUT line
 `a Remotion composition, 1920x1080, 30 fps, 450 frames, id LaunchFilm`
 
@@ -36,7 +39,10 @@ npx remotion render <CompId> out/video.mp4
 - Frames for the lab tools: `npx remotion render <CompId> out/frames --sequence --image-format=png`
   (the lab tools detect any single zero-padded PNG sequence such as `element-0000.png`, so contact-sheet,
   onion-skin, export and diff-frames work on Remotion's output directly).
-- Probes: export a pure `values(frame)` function next to each component and audit it with a small node script, or
-  render a debug overlay.
+- Probes: put a pure `values(frame, fps)` function in a `.ts` file with no JSX, import it from the component, and
+  audit it with a small Node script that imports the same file. Node 23.6+ runs `.ts` directly; Node 22.6+ needs
+  `--experimental-strip-types`. `spring` from `remotion` works in plain Node.
+- Remotion pads frame numbers to the digit count of the duration (`element-00.png` for 48 frames). The lab tools
+  read this; there is no `frames.json`, so pass `--fps` to `export` if `motion-lab.json` doesn't set it.
 - Sound: Remotion `<Audio>` with a WAV produced by the lab's `score.mjs` from a standalone audio HTML, or author it
   in Remotion; measure with `audio-measure.mjs` on the rendered MP4.
