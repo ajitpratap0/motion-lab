@@ -7,6 +7,9 @@
   },
   "homepage": "https://github.com/ajitpratap0/motion-lab",
   "repository": "https://github.com/ajitpratap0/motion-lab",
+  "documentationUrl": "https://github.com/ajitpratap0/motion-lab#readme",
+  "supportUrl": "https://github.com/ajitpratap0/motion-lab/issues",
+  "privacyPolicyUrl": "https://github.com/ajitpratap0/motion-lab/blob/main/PRIVACY.md",
   "license": "MIT",
   "keywords": [
     "motion",
