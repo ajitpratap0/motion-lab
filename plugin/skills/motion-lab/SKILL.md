@@ -39,7 +39,8 @@ write it into `PROMPT.md` or `RECEIPTS.md`, and keep going. Ask only when a miss
 ## Defaults
 - Effort: medium. Raise only when a from-scratch piece misses twice.
 - Engine choice (reference/engines/): one 2D idea < 10 s → plain HTML; 3D → three.js; series/template/data/long →
-  Remotion; HTML+GSAP thinker wanting a CLI → HyperFrames; motion inside a live product → Motion/GSAP (no contract).
+  Remotion; HTML+GSAP thinker wanting a CLI → HyperFrames; motion inside a live product → Motion/GSAP (no contract);
+  a clip that should match a product's Motion springs → seeked Motion `animate()` (contract applies).
 - Remotion and HyperFrames have official Claude Code plugins (`remotion@remotion`, `hyperframes@hyperframes`). When
   the engine is one of them, use that plugin's skills for engine APIs and project mechanics; if it isn't installed,
   give the user the install commands from the engine file. Motion Lab still owns direction, review, audit and sound.

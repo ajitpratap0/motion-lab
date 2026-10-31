@@ -14,7 +14,8 @@ itself into agent prompts.
    BPM/key, levels and the master spec. Log it in RECEIPTS.md under `## Sound prompt`.
 3. Implement `window.renderAudio({sampleRate, secs})` in the scene (or a sibling `score.html`) with an
    OfflineAudioContext: cosine-phase tones, 0.5-1 ms attacks, hit target sample `(frame+1)/fps*sr`, no waveshapers on
-   hits, loop tails wrapped across the seam, DC removed. Render a separate bed-only pass when `{bedOnly:true}` is passed
+   hits, DC removed. For loops, render two loops in one `2 x secs` context and return the second, so tails wrap
+   across the seam (`--passes` does not do this). Render a separate bed-only pass when `{bedOnly:true}` is passed
    so hit-over-bed can be measured.
 4. Render and measure:
    ```bash
@@ -27,6 +28,7 @@ itself into agent prompts.
 6. Done when: every hit offset within 0..+1 ms of frame+1, hits 3-6 dB over bed, -14 ± 1 LUFS, TP ≤ -1 dBTP,
    < 50% energy under 60 Hz, seam step inaudible.
 7. Mux: `node "$LAB/scripts/export.mjs" mp4 --audio out/score.wav --loudnorm`, then re-run audio-measure on the MP4
-   with `--video` to catch codec padding.
+   with `--video` to catch codec padding and `--bed out/bed.wav` so hit offsets are measured on the hits, not the
+   bed's peaks (without it, a trial read 1.3 and 2.3 ms; with it, 0 ms).
 
 You cannot listen; never claim something "sounds" good. Report measurements.

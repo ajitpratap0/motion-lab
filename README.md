@@ -197,8 +197,11 @@ flag them.
 v0.1.0. Tested end to end on a plain-HTML kinetic-type loop and a three.js product loop: direct, build, review,
 audit, export and receipts.
 
-- Sound scoring and the Remotion, HyperFrames and Motion paths are covered by tests and fixtures but haven't had a
-  full project run yet. Reports are welcome.
+- Remotion (4.0.536), HyperFrames (0.8.217) and Motion (14.2.0) were each checked with a small scene: render,
+  audit or value checks, export and xcheck, and for HyperFrames a frame match against its own renderer. They
+  haven't had a full directed project run yet. Notes from these checks are in the engine docs.
+- Sound was checked on the 2D loop: a Web Audio score with three hits, two mixer rounds, then muxed. Final MP4:
+  hits 0 ms from frame+1 and 3.5 dB over the bed, -13.9 LUFS, -1.1 dBTP, no audio/video offset. Reports are welcome.
 - Export targets X's limits. Other platforms work but aren't checked.
 - Rendering is frame by frame in headless Chromium. It's exact, not fast: a 5-second 1080p three.js loop with
   12-sample motion blur takes a few minutes.

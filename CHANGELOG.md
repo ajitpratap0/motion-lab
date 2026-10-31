@@ -8,6 +8,11 @@ and the project uses [Semantic Versioning](https://semver.org/).
 - README rewrite with demo media, quick start, pipeline overview and configuration reference.
 - Contributing guide, code of conduct, security policy, issue and PR templates.
 - GitHub Actions CI: tests, lint fixtures and `--help` for every CLI.
+- Engine docs: verified setups for HyperFrames 0.8.217 (fps, fonts, `__timelines`, its `check`), Motion 14.2.0
+  (seekable `animate()` clips) and Remotion 4.0.536 (value audits in plain Node, frame naming).
+- Fix table: final render differing from reviewed frames because of system fonts.
+- Sound docs: the scene wraps loop tails itself (`--passes` doesn't), an exact recipe for hits that crest on the
+  target sample, and measuring the muxed MP4 with `--bed`.
 
 ## [0.1.0] - 2026-10-31
 ### Added

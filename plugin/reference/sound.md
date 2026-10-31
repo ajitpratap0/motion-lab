@@ -22,19 +22,25 @@ Bed: <kick/shaker/bass/pad pattern by frame or bar, chord roots per bar>.
 Events (from window.__events):
   <frame>: <name> — <sound: click, body Hz, thump Hz / swish / ting partials / riser frames a-b>
   ...
-Hits 3-6 dB over the bed, nothing above 8 kHz, mono-safe. Render twice, keep the second pass.
+Hits 3-6 dB over the bed, nothing above 8 kHz, mono-safe. Render two loops, return the second.
 48 kHz stereo WAV, about -14 LUFS, peak -1 dBTP, no click at the seam. Mux into the MP4 and check every hit in its
 decoded audio.
 ```
 
 ## Timing-exact synthesis
 - Hit target sample = `(frame + 1) / fps × sampleRate`. At 60 fps / 48 kHz that is `(F+1) × 800`.
-- Start tones in **cosine phase** with a 0.5-1 ms attack so the first crest is on the target sample.
+- Start tones in **cosine phase** with a 0.5-1 ms attack so the first crest is on the target sample. Exact recipe
+  (measured 0.0 ms offsets): a `PeriodicWave` with `real [0, 1]`, `imag [0, 0]`; start each partial
+  `round(0.0007 x Hz)` whole periods before the target and ramp its gain linearly to full at the target, so the
+  crest and the end of the attack coincide for every partial.
 - No waveshapers or saturation on hits: they shift peaks 4-10 ms.
 - Kicks: a 3 ms transient (falls to 65% within 3 ms) so the largest peak is the first.
 - A limiter that takes > 1.5 dB off a hit means partials crest on the same sample: change phase or level.
 - Remove DC: subtract each channel's loop mean.
-- Seamless loop: wrap tails that cross the seam back onto the start (render 2 loops, keep the second).
+- Seamless loop: wrap tails that cross the seam back onto the start. `renderAudio` does this itself: make the
+  OfflineAudioContext `2 x secs` long, schedule every event in both loops, and return the second half.
+  (`score.mjs --passes` only repeats the whole render; it does not wrap anything.) Held tones are seamless when they
+  complete whole cycles per loop (220 Hz x 4 s = 880).
 
 ## Measure, then fix (`audio-measure.mjs`)
 Reports per event: peak offset (ms) from frame+1 (measured on mix minus bed when `--bed` is given, so the bed's own
