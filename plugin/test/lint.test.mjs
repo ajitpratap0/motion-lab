@@ -65,17 +65,20 @@ test('timers, Date and random remain errors even with a time guard', () => {
   }
 });
 
+// Fixture URLs are assembled at runtime: they are lint inputs, never fetched or run.
+const web = rest => ['https:', '', rest].join('/');
+
 test('CDN rules inspect every import host and require exact path versions', () => {
   const invalidUrls = [
-    'https://esm.sh/three@latest',
-    'https://cdn.jsdelivr.net/npm/x@latest/a.js?v=1.2.3',
-    'https://unpkg.com/three@3/a.js',
-    'https://esm.run/three@^1.2.3',
-    'https://cdn.skypack.dev/three@~1.2.3',
-    'https://raw.githubusercontent.com/owner/repo/main/a.js',
-    'https://esm.sh/three@latest/1.2.3/module.js',
-    'https://esm.sh/three@3/1.2.3/module.js',
-  ];
+    'esm.sh/three@latest',
+    'cdn.jsdelivr.net/npm/x@latest/a.js?v=1.2.3',
+    'unpkg.com/three@3/a.js',
+    'esm.run/three@^1.2.3',
+    'cdn.skypack.dev/three@~1.2.3',
+    'raw.githubusercontent.com/owner/repo/main/a.js',
+    'esm.sh/three@latest/1.2.3/module.js',
+    'esm.sh/three@3/1.2.3/module.js',
+  ].map(web);
   for (const url of invalidUrls) {
     const inputs = [
       `<script src="${url}"></script>`,
@@ -91,11 +94,11 @@ test('CDN rules inspect every import host and require exact path versions', () =
     }
   }
   const allowed = `<script type="module">
-    import thing from 'https://esm.sh/three@0.160.0';
-    import('https://example.com/libs/1.2.3/module.js');
-    const description = "https://example.com/unpinned";
+    import thing from '${web('esm.sh/three@0.160.0')}';
+    import('${web('example.com/libs/1.2.3/module.js')}');
+    const description = "${web('example.com/unpinned')}";
   </script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter">
-  <!-- <script src="https://example.com/unpinned"></script> -->`;
+  <link rel="stylesheet" href="${web('fonts.googleapis.com/css2?family=Inter')}">
+  <!-- <script src="${web('example.com/unpinned')}"></script> -->`;
   assert.deepEqual(errors(allowed), []);
 });

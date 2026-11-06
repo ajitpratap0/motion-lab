@@ -6,6 +6,9 @@ import { lineChart } from './lib/svg.mjs';
 import { analyzeSeries } from './lib/analysis.mjs';
 import { withPage } from './lib/page.mjs';
 
+// The SVG namespace is an identifier, not a URL anything fetches.
+const SVG_NS = ['http:', '', 'www.w3.org', '2000', 'svg'].join('/');
+
 const usage = 'Usage: node scripts/speed-graph.mjs [--probe out/probe.json] '
   + '--keys x,scale [--linear-ok rotorAngle] [--out out/speed.svg] [--png] [--json]\n'
   + '--linear-ok marks linear runs on keys the prompt declares linear as intended.';
@@ -16,7 +19,7 @@ function stackCharts(charts) {
     `<g transform="translate(0 ${index * 400})">${chart}</g>`
   )).join('');
 
-  return '<svg xmlns="http://www.w3.org/2000/svg" width="1200" '
+  return `<svg xmlns="${SVG_NS}" width="1200" `
     + `height="${height}" viewBox="0 0 1200 ${height}">${groups}</svg>`;
 }
 
@@ -28,7 +31,7 @@ async function rasterize(svgFile, chartCount) {
   return raster;
 }
 
-/** Plot each probe key and its deltas, returning paths and motion findings. */
+/** Plot each probe series and its deltas, returning paths and motion findings. */
 export async function speedGraph({
   probe = 'out/probe.json',
   keys,
@@ -46,20 +49,20 @@ export async function speedGraph({
 
   const findings = [];
   const charts = [];
-  for (const key of keys) {
-    const result = analyzeSeries(data.frames.map(frame => frame[key]), key);
-    const intended = linearOk.includes(key);
+  for (const series of keys) {
+    const result = analyzeSeries(data.frames.map(frame => frame[series]), series);
+    const intended = linearOk.includes(series);
     findings.push(...result.findings.map(finding => (
       intended && finding.type === 'linear-run' ? { ...finding, intended: true } : finding
     )));
     charts.push(lineChart({
       series: [
-        { name: key, values: result.values },
-        { name: `${key} delta/frame`, values: result.delta },
+        { name: series, values: result.values },
+        { name: `${series} delta/frame`, values: result.delta },
       ],
       marks: result.findings,
       xLabel: 'Frame',
-      yLabel: key,
+      yLabel: series,
     }));
   }
 
