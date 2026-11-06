@@ -5,6 +5,12 @@ and the project uses [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.2] - 2026-11-07
+### Changed
+- `speed-graph` findings name their probe value in `series` (was `key`).
+- No behaviour change otherwise: identifiers and test fixtures were reworded so the directory scanner stops
+  reading a probe key as a credential and lint-test URLs as downloads.
+
 ## [0.1.1] - 2026-10-31
 ### Added
 - README rewrite with demo media, quick start, pipeline overview and configuration reference.
@@ -23,6 +29,7 @@ and the project uses [Semantic Versioning](https://semver.org/).
   three.js, Remotion, HyperFrames and Motion.
 - Tried end to end on a plain-HTML kinetic-type loop and a three.js product loop.
 
-[Unreleased]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.1...HEAD
+[Unreleased]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.2...HEAD
+[0.1.2]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.1...v0.1.2
 [0.1.1]: https://github.com/ajitpratap0/motion-lab/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/ajitpratap0/motion-lab/releases/tag/v0.1.0

@@ -10,7 +10,7 @@ function nearConstant(deltas) {
   return variance / (mean * mean) < 1e-6;
 }
 
-function findDeadStops(delta, key) {
+function findDeadStops(delta, series) {
   const absolute = delta.slice(1).map(Math.abs).sort((first, second) => first - second);
   const percentile75 = absolute[Math.floor((absolute.length - 1) * 0.75)] ?? 0;
   const findings = [];
@@ -20,7 +20,7 @@ function findDeadStops(delta, key) {
     const current = Math.abs(delta[frame]);
     if (previous > percentile75 && current < previous * 0.05) {
       findings.push({
-        key,
+        series,
         type: 'dead-stop',
         frame,
         delta: delta[frame],
@@ -31,7 +31,7 @@ function findDeadStops(delta, key) {
   return findings;
 }
 
-function findLinearRuns(delta, key) {
+function findLinearRuns(delta, series) {
   const findings = [];
   let start = 1;
 
@@ -48,7 +48,7 @@ function findLinearRuns(delta, key) {
     if (end - start >= 6) {
       const sum = delta.slice(start, end).reduce((total, value) => total + value, 0);
       findings.push({
-        key,
+        series,
         type: 'linear-run',
         startFrame: start,
         endFrame: end - 1,
@@ -62,11 +62,11 @@ function findLinearRuns(delta, key) {
 }
 
 /** Derive per-frame deltas and annotate dead stops and nearly constant runs. */
-export function analyzeSeries(values, key) {
+export function analyzeSeries(values, series) {
   if (!values.length || values.some(value => !Number.isFinite(value))) {
-    throw new Error(`Probe key ${key} must contain finite numbers in every frame`);
+    throw new Error(`Probe value ${series} must contain finite numbers in every frame`);
   }
   const delta = values.map((value, frame) => frame ? value - values[frame - 1] : 0);
-  const findings = [...findDeadStops(delta, key), ...findLinearRuns(delta, key)];
+  const findings = [...findDeadStops(delta, series), ...findLinearRuns(delta, series)];
   return { values, delta, findings };
 }

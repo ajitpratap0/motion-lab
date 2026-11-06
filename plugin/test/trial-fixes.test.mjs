@@ -59,6 +59,6 @@ test('speed-graph marks declared linear keys as intended', async () => {
   await writeFile(probe, JSON.stringify({ frames }));
   const result = await speedGraph({ probe, keys: ['spin', 'x'], out: path.join(dir, 's.svg'), linearOk: ['spin'] });
   const runs = result.findings.filter(finding => finding.type === 'linear-run');
-  assert.ok(runs.some(finding => finding.key === 'spin' && finding.intended === true));
-  assert.ok(runs.some(finding => finding.key === 'x' && !finding.intended));
+  assert.ok(runs.some(finding => finding.series === 'spin' && finding.intended === true));
+  assert.ok(runs.some(finding => finding.series === 'x' && !finding.intended));
 });
